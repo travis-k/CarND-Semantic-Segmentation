@@ -17,12 +17,15 @@ In this project, I labeled the pixels of a road in images using a Fully Convolut
 Below are some typical results from the trained FCN. For the most part, it identifies most of the road surface and excludes other vehicles on the road. It does have some issues in dealing with shadows or high contrast situations, as illustrated in the last image. 
 
 A typical result from the trained FCN:
+
 ![image2]
 
 Another typical result from the trained FCN:
+
 ![image3]
 
 The FCN is shown having trouble with a high-contrast situation:
+
 ![image4]
 
 ## Limitations of this Specific Project
