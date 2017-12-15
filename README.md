@@ -10,17 +10,17 @@ In this project, I labeled the pixels of a road in images using a Fully Convolut
 ## About
 - The [Kitti Road dataset](http://www.cvlibs.net/datasets/kitti/eval_road.php) was used to train the and evaluate the network.
 - This FCN uses the VGG16 network as the encoder, and a decoder with 3 layers and 2 skip connections. A simplified representation of the network is shown below, with the image taken from Udacity's classroom
-[image1]
+![image1]
 - The network was trained over 50 epochs with a loss of approximately 8-9%.
 
 ## Results
 Below are some typical results from the trained FCN. For the most part, it identifies most of the road surface and excludes other vehicles on the road. It does have some issues in dealing with shadows or high contrast situations, as illustrated in the last image. 
 
-[image2]
+![image2]
 
-[image3]
+![image3]
 
-[image4]
+![image4]
 
 ## Limitations of this Specific Project
 - The network had to be trained on CPUs rather than GPUs, due to insufficient GPU memory
