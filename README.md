@@ -1,36 +1,29 @@
 # Semantic Segmentation
-### Introduction
-In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
+[//]: # (Image References)
+[image1]: ./writeup_imgs/fcn-arch.png "Simplified Representation of FCN Architecture"
+[image2]: ./writeup_imgs/um_000000.png "A typical result from the trained network"
+[image3]: ./writeup_imgs/um_000003.png "Another typical result from the trained network"
+[image4]: ./writeup_imgs/um_000087.png "The trained network had some issues dealing with shadows or high-contrast situations"
 
-### Setup
-##### Frameworks and Packages
-Make sure you have the following is installed:
- - [Python 3](https://www.python.org/)
- - [TensorFlow](https://www.tensorflow.org/)
- - [NumPy](http://www.numpy.org/)
- - [SciPy](https://www.scipy.org/)
-##### Dataset
-Download the [Kitti Road dataset](http://www.cvlibs.net/datasets/kitti/eval_road.php) from [here](http://www.cvlibs.net/download.php?file=data_road.zip).  Extract the dataset in the `data` folder.  This will create the folder `data_road` with all the training a test images.
+In this project, I labeled the pixels of a road in images using a Fully Convolutional Network (FCN). The architecture used was based on FCN-8, with more information on FCN-8 available [here](https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf).
 
-### Start
-##### Implement
-Implement the code in the `main.py` module indicated by the "TODO" comments.
-The comments indicated with "OPTIONAL" tag are not required to complete.
-##### Run
-Run the following command to run the project:
-```
-python main.py
-```
-**Note** If running this in Jupyter Notebook system messages, such as those regarding test status, may appear in the terminal rather than the notebook.
+## About
+- The [Kitti Road dataset](http://www.cvlibs.net/datasets/kitti/eval_road.php) was used to train the and evaluate the network.
+- This FCN uses the VGG16 network as the encoder, and a decoder with 3 layers and 2 skip connections. A simplified representation of the network is shown below, with the image taken from Udacity's classroom
+[image1]
+- The network was trained over 50 epochs with a loss of approximately 8-9%.
 
-### Submission
-1. Ensure you've passed all the unit tests.
-2. Ensure you pass all points on [the rubric](https://review.udacity.com/#!/rubrics/989/view).
-3. Submit the following in a zip file.
- - `helper.py`
- - `main.py`
- - `project_tests.py`
- - Newest inference images from `runs` folder  (**all images from the most recent run**)
- 
- ## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+## Results
+Below are some typical results from the trained FCN. For the most part, it identifies most of the road surface and excludes other vehicles on the road. It does have some issues in dealing with shadows or high contrast situations, as illustrated in the last image. 
+
+[image2]
+
+[image3]
+
+[image4]
+
+## Limitations of this Specific Project
+- The network had to be trained on CPUs rather than GPUs, due to insufficient GPU memory
+- Augmenting the training data would help generalize this method more, perhaps also improving the analysis with shadows
+- The performance of the trained network could be improved by using the techniques learned in the "Inference Performance" module of the Udacity classroom
+

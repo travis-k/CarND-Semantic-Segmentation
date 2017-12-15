@@ -18,8 +18,7 @@ def load_vgg(sess, vgg_path):
     :param vgg_path: Path to vgg folder, containing "variables/" and "saved_model.pb"
     :return: Tuple of Tensors from VGG model (image_input, keep_prob, layer3_out, layer4_out, layer7_out)
     """
-    # TODO: Implement function
-    #   Use tf.saved_model.loader.load to load the model and weights
+    # Loading VGG16
     vgg_tag = 'vgg16'
     vgg_input_tensor_name = 'image_input:0'
     vgg_keep_prob_tensor_name = 'keep_prob:0'
@@ -36,7 +35,8 @@ def load_vgg(sess, vgg_path):
     vgg_layer7_out = graph.get_tensor_by_name(vgg_layer7_out_tensor_name)
 
     return w1, keep, vgg_layer3_out, vgg_layer4_out, vgg_layer7_out
-#tests.test_load_vgg(load_vgg, tf)
+
+tests.test_load_vgg(load_vgg, tf)
 
 def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     """
@@ -87,7 +87,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     output = tf.identity(skip_3_upscale, name='output')
     return output
 
-#tests.test_layers(layers)
+tests.test_layers(layers)
 
 def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     """
@@ -98,15 +98,13 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     :param num_classes: Number of classes to classify
     :return: Tuple of (logits, train_op, cross_entropy_loss)
     """
-    # TODO: Implement function
-
     logits = tf.reshape(nn_last_layer, (-1, num_classes))
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=correct_label))
     train_op = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy_loss)
 
     return logits, train_op, cross_entropy_loss
 
-#tests.test_optimize(optimize)
+tests.test_optimize(optimize)
 
 def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, input_image,
              correct_label, keep_prob, learning_rate):
@@ -126,26 +124,23 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     sess.run(tf.global_variables_initializer())
     
     train_losses = []
-    steps = 0
+    batch = 0
     
     for epoch in range(epochs):
         # Loop over all batches
         for images, gt_images in get_batches_fn(batch_size):
             
-            steps += 1
-            
-            feed = {input_image: images,
-                    correct_label: gt_images,
-                    keep_prob: 0.5,
-                    learning_rate: 0.001}
+            feed = {input_image: images, correct_label: gt_images,
+                    keep_prob: 0.5, learning_rate: 0.001}
+
             _, loss = sess.run([train_op, cross_entropy_loss], feed_dict=feed)
             
-            if steps % 50 == 0:
-                print('Epoch: {};Step: {};Loss: {}'.format(epoch,steps,loss))
+            if batch % 50 == 0:
+                print('Epoch: {} Batch: {} Loss: {}'.format(epoch,steps,loss))
             
-        train_losses.append(loss)
+            batch += 1
 
-#tests.test_train_nn(train_nn)
+tests.test_train_nn(train_nn)
 
 def run():
     num_classes = 2
@@ -183,18 +178,13 @@ def run():
         logits, train_op, loss = optimize(nn_last_layer, 
                                     correct_label, learning_rate, num_classes)
 
-        # TODO: Train NN using the train_nn function
+        # Training the NN
         epochs = 50
         batch_size = 16
         train_nn(sess, epochs, batch_size, get_batches_fn, train_op, loss, w1, correct_label, keep, learning_rate)
         
-
-
-        # TODO: Save inference data using helper.save_inference_samples
+        # Saving the test images for review and grading
         helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep, w1)
-
-        # OPTIONAL: Apply the trained model to a video
-
 
 if __name__ == '__main__':
     run()
