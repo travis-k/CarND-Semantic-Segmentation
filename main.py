@@ -136,7 +136,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             _, loss = sess.run([train_op, cross_entropy_loss], feed_dict=feed)
             
             if batch % 50 == 0:
-                print('Epoch: {} Batch: {} Loss: {}'.format(epoch,steps,loss))
+                print('Epoch: {} Batch: {} Loss: {}'.format(epoch,batch,loss))
             
             batch += 1
 
